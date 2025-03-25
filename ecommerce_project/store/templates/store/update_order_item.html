@@ -1,0 +1,55 @@
+<!-- store/templates/store/update_order_item.html -->
+{% extends 'store/base.html' %} {% block title %}Update Order Item{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header bg-warning text-dark">
+          <h2 class="mb-0">Update Order Item</h2>
+        </div>
+        <div class="card-body">
+          <form method="post" novalidate>
+            {% csrf_token %}
+
+            <div class="mb-3">
+              <label class="form-label">Product</label>
+              <input
+                type="text"
+                class="form-control"
+                value="{{ order_item.product.name }}"
+                readonly
+              />
+            </div>
+
+            <div class="mb-3">
+              <label for="{{ form.quantity.id_for_label }}" class="form-label"
+                >Quantity</label
+              >
+              {{ form.quantity }} {% if form.quantity.errors %}
+              <div class="text-danger">
+                {% for error in form.quantity.errors %}
+                <small>{{ error }}</small>
+                {% endfor %}
+              </div>
+              {% endif %}
+            </div>
+
+            <div class="d-grid gap-2">
+              <button type="submit" class="btn btn-warning">
+                <i class="bi bi-pencil"></i> Update Item
+              </button>
+              <a
+                href="{% url 'order_detail' order_item.order.pk %}"
+                class="btn btn-secondary"
+              >
+                Cancel
+              </a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

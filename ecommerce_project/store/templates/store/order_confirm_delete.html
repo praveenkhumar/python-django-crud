@@ -1,0 +1,38 @@
+<!-- store/templates/store/order_confirm_delete.html -->
+{% extends 'store/base.html' %} {% block title %}Delete Order{% endblock %} {%
+block content %}
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card border-danger">
+        <div class="card-header bg-danger text-white">
+          <h2 class="mb-0">Confirm Order Deletion</h2>
+        </div>
+        <div class="card-body">
+          <p class="lead">
+            Are you sure you want to delete Order #{{ order.id }}?
+          </p>
+          <div class="alert alert-warning" role="alert">
+            <strong>Warning:</strong> This action cannot be undone.
+          </div>
+
+          <form method="post">
+            {% csrf_token %}
+            <div class="d-grid gap-2">
+              <button type="submit" class="btn btn-danger">
+                <i class="bi bi-trash"></i> Confirm Delete
+              </button>
+              <a
+                href="{% url 'order_detail' order.pk %}"
+                class="btn btn-secondary"
+              >
+                Cancel
+              </a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

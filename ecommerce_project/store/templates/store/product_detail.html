@@ -1,0 +1,25 @@
+{% extends 'store/base.html' %} {% block title %}{{ product.name }}{% endblock
+%} {% block content %}
+<div class="card">
+  <div class="card-header">
+    <h1>{{ product.name }}</h1>
+  </div>
+  <div class="card-body">
+    <h5 class="text-muted">${{ product.price }}</h5>
+    <p>{{ product.description }}</p>
+    <p><strong>In Stock:</strong> {{ product.stock }}</p>
+    <p><strong>Added:</strong> {{ product.created_at|date:"F j, Y" }}</p>
+
+    {% if user.is_authenticated %}
+    <div class="mt-4">
+      <a href="{% url 'product_update' product.pk %}" class="btn btn-warning"
+        >Edit</a
+      >
+      <a href="{% url 'product_delete' product.pk %}" class="btn btn-danger"
+        >Delete</a
+      >
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

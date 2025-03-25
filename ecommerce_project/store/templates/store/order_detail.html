@@ -1,0 +1,84 @@
+{% extends 'store/base.html' %} {% block title %}Order #{{ order.id }}{%
+endblock %} {% block content %}
+<div class="card mb-4">
+  <div class="card-header">
+    <div class="d-flex justify-content-between align-items-center">
+      <h1>Order #{{ order.id }}</h1>
+      <span
+        class="badge {% if order.status == 'completed' %}bg-success{% elif order.status == 'cancelled' %}bg-danger{% else %}bg-warning{% endif %} fs-6"
+      >
+        {{ order.get_status_display }}
+      </span>
+    </div>
+  </div>
+  <div class="card-body">
+    <p><strong>Date:</strong> {{ order.created_at|date:"F j, Y" }}</p>
+
+    <div class="mt-4">
+      <h4>Order Items</h4>
+      <a
+        href="{% url 'add_to_order' order.pk %}"
+        class="btn btn-sm btn-primary mb-3"
+        >Add Item</a
+      >
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Subtotal</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in order.orderitem_set.all %}
+          <tr>
+            <td>{{ item.product.name }}</td>
+            <td>${{ item.price }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>${{ item.subtotal }}</td>
+            <td>
+              <a
+                href="{% url 'update_order_item' item.pk %}"
+                class="btn btn-sm btn-warning"
+                >Edit</a
+              >
+              <a
+                href="{% url 'delete_order_item' item.pk %}"
+                class="btn btn-sm btn-danger"
+                >Remove</a
+              >
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="5">No items in this order yet.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3" class="text-end"><strong>Total:</strong></td>
+            <td><strong>${{ order.total_price }}</strong></td>
+            <td></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <div class="mt-4">
+      <a href="{% url 'order_update' order.pk %}" class="btn btn-warning"
+        >Update Status</a
+      >
+      <a href="{% url 'order_delete' order.pk %}" class="btn btn-danger"
+        >Delete Order</a
+      >
+      <a href="{% url 'order_list' %}" class="btn btn-secondary"
+        >Back to Orders</a
+      >
+    </div>
+  </div>
+</div>
+{% endblock %}

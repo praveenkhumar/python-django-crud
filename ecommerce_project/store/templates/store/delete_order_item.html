@@ -1,0 +1,43 @@
+<!-- store/templates/store/delete_order_item.html -->
+{% extends 'store/base.html' %} {% block title %}Remove Order Item{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card border-danger">
+        <div class="card-header bg-danger text-white">
+          <h2 class="mb-0">Remove Order Item</h2>
+        </div>
+        <div class="card-body">
+          <div class="alert alert-warning" role="alert">
+            <strong>Confirm Removal:</strong>
+            Remove {{ order_item.quantity }} x {{ order_item.product.name }}
+            from Order #{{ order_item.order.id }}?
+          </div>
+
+          <div class="mb-3">
+            <strong>Product:</strong> {{ order_item.product.name }}<br />
+            <strong>Quantity:</strong> {{ order_item.quantity }}<br />
+            <strong>Subtotal:</strong> ${{ order_item.subtotal }}
+          </div>
+
+          <form method="post">
+            {% csrf_token %}
+            <div class="d-grid gap-2">
+              <button type="submit" class="btn btn-danger">
+                <i class="bi bi-trash"></i> Confirm Remove
+              </button>
+              <a
+                href="{% url 'order_detail' order_item.order.pk %}"
+                class="btn btn-secondary"
+              >
+                Cancel
+              </a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

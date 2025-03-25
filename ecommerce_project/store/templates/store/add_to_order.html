@@ -1,0 +1,58 @@
+<!-- store/templates/store/add_to_order.html -->
+{% extends 'store/base.html' %} {% block title %}Add Item to Order #{{ order.id
+}}{% endblock %} {% block content %}
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header bg-success text-white">
+          <h2 class="mb-0">Add Product to Order #{{ order.id }}</h2>
+        </div>
+        <div class="card-body">
+          <form method="post" novalidate>
+            {% csrf_token %}
+
+            <div class="mb-3">
+              <label for="{{ form.product.id_for_label }}" class="form-label"
+                >Select Product</label
+              >
+              {{ form.product }} {% if form.product.errors %}
+              <div class="text-danger">
+                {% for error in form.product.errors %}
+                <small>{{ error }}</small>
+                {% endfor %}
+              </div>
+              {% endif %}
+            </div>
+
+            <div class="mb-3">
+              <label for="{{ form.quantity.id_for_label }}" class="form-label"
+                >Quantity</label
+              >
+              {{ form.quantity }} {% if form.quantity.errors %}
+              <div class="text-danger">
+                {% for error in form.quantity.errors %}
+                <small>{{ error }}</small>
+                {% endfor %}
+              </div>
+              {% endif %}
+            </div>
+
+            <div class="d-grid gap-2">
+              <button type="submit" class="btn btn-success">
+                <i class="bi bi-plus-circle"></i> Add to Order
+              </button>
+              <a
+                href="{% url 'order_detail' order.pk %}"
+                class="btn btn-secondary"
+              >
+                Cancel
+              </a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'store/base.html' %} {% block title %}{% if form.instance.pk %}Edit
+Product{% else %}New Product{% endif %}{% endblock %} {% block content %}
+<h1>
+  {% if form.instance.pk %}Edit Product{% else %}Add New Product{% endif %}
+</h1>
+
+<form method="post" novalidate>
+  {% csrf_token %} {% for field in form %}
+  <div class="mb-3">
+    <label for="{{ field.id_for_label }}" class="form-label"
+      >{{ field.label }}</label
+    >
+    {{ field }} {% if field.errors %}
+    <div class="text-danger">
+      {% for error in field.errors %}
+      <small>{{ error }}</small>
+      {% endfor %}
+    </div>
+    {% endif %} {% if field.help_text %}
+    <small class="form-text text-muted">{{ field.help_text }}</small>
+    {% endif %}
+  </div>
+  {% endfor %}
+
+  <button type="submit" class="btn btn-primary">Save</button>
+  <a href="{% url 'product_list' %}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}
